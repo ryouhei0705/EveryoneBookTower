@@ -88,16 +88,20 @@ export default function Home(props: Props) {
   return (
     <table>
       {/* 読書データを一覧表示 */}
-      {books && books.map((book: Book) => (
+      <tbody>
+        {books && books.map((book: Book) => (
+          <tr>
+            <td>{book.name}</td>
+            <td>{book.day}</td>
+          </tr>
+        ))}
+      </tbody>
+      <thead>
         <tr>
-          <td>{book.name}</td>
-          <td>{book.day}</td>
+          <th>書籍名</th>
+          <th>読書日</th>
         </tr>
-      ))}
-      <tr>
-        <th>書籍名</th>
-        <th>読書日</th>
-      </tr>
+      </thead>
     </table>
   )
 }
