@@ -59,57 +59,48 @@ export default function Home(props: Props) {
   // 読書データ
   const [books, setBooks] = useState<Book[]>(props.initialBooks);
 
-  // const [books, setBooks] = useState<Book[]>([
-  //   {
-  //     name: '流星の絆',
-  //     day: '2024/02/28/23:54:50',
-  //   }, {
-  //     name: 'きんフレ',
-  //     day: '2024/02/29/03:14:50',
-  //   }
-  // ]);
-
-  // setBooks([
-  //   {
-  //     name: '流星の絆',
-  //     day: '2024/02/28/23:54:50',
-  //   }, {
-  //     name: 'きんフレ',
-  //     day: '2024/02/29/03:14:50',
-  //   }, {
-  //     name: 'よくわかる',
-  //     day: '2024/03/29/03:14:50',
-  //   }
-  // ]);
-  console.log("in Home");
-  console.log(books);
-  console.log(typeof books);
-
   return (
-    <table>
+    <>
       {/* 読書データを一覧表示 */}
-      <tbody>
-        {books && books.map((book: Book) => (
+      <table>
+        <tbody>
+          {books && books.map((book: Book) => (
+            <tr>
+              <td>{book.name}</td>
+              <td>{book.day}</td>
+              <td>
+                <form onSubmit={updateBooks}>
+                  <input type="text" value="書籍名"/>
+                  <button type="submit">更新</button>
+                </form>
+              </td>
+              <td>
+                <button type="button" onClick={deleteBooks}>削除</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+        <thead>
           <tr>
-            <td>{book.name}</td>
-            <td>{book.day}</td>
+            <th>書籍名</th>
+            <th>読書日</th>
+            <th>更新</th>
+            <th>削除</th>
           </tr>
-        ))}
-      </tbody>
-      <thead>
-        <tr>
-          <th>書籍名</th>
-          <th>読書日</th>
-        </tr>
-      </thead>
-    </table>
+        </thead>
+      </table>
+
+      {/* 作成ボタン */}
+      <form onSubmit={createBooks}>
+        <input type="text" value="書籍名"/>
+        <button type="submit">作成</button>
+      </form>
+    </>
   )
 }
 
 export const getServerSideProps = async () => {
   const res = await readBooks();
-  console.log("in getServerSideProps");
-  console.log(res);
   return {
     props: {
       initialBooks: res
